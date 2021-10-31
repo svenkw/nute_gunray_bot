@@ -1,10 +1,22 @@
+from os import scandir
 import praw
 from praw.models import MoreComments
 
 # Parameters
-NUM_POSTS = 100
+NUM_POSTS = 30
 BOT_FILE = "bot_data/bot_list"
+SCANNED_FILE = "bot_data/scanned_posts"
 SCORE_LIMIT = 0
+
+def get_scanned_posts():
+    with open(SCANNED_FILE, 'r') as f:
+        scanned_posts = f.read().splitlines()
+
+    return scanned_posts
+
+def add_post_to_list(post_id):
+    with open(SCANNED_FILE, 'w+') as f:
+        f.write(post_id + "\n")
 
 def get_bot_list():
     with open(BOT_FILE, 'r') as f:
@@ -46,12 +58,21 @@ reddit = praw.Reddit('nute_gunray_bot', user_agent="script:This is getting out o
 # Read the names of the active bots on PrequelMemes from file
 bot_list = get_bot_list()
 
+# Get a list of all the post IDs that have already been scanned
+scanned_posts = get_scanned_posts()
+
 # Start scanning
 for post in reddit.subreddit("prequelmemes").hot(limit=NUM_POSTS):
-    print(f"Starting examining post with title \"{post.title}\"")
-    comment_list = post.comments.list()
 
-    ca_dict = comment_author_dict(comment_list)
+    if post.id in scanned_posts:
+        pass
+    else:
+        print(f"Starting examining post with title \"{post.title}\"")
+        comment_list = post.comments.list()
 
-    count =get_double_bot_comments(comment_list, ca_dict)
-    print(f"{count} bot-on-bot conversations")
+        ca_dict = comment_author_dict(comment_list)
+
+        count =get_double_bot_comments(comment_list, ca_dict)
+        print(f"{count} bot-on-bot conversations")
+
+        add_post_to_list(post.id)
