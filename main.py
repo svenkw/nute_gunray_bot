@@ -15,7 +15,7 @@ def get_scanned_posts():
     return scanned_posts
 
 def add_post_to_list(post_id):
-    with open(SCANNED_FILE, 'w+') as f:
+    with open(SCANNED_FILE, 'a+') as f:
         f.write(post_id + "\n")
 
 def get_bot_list():
@@ -65,6 +65,7 @@ scanned_posts = get_scanned_posts()
 for post in reddit.subreddit("prequelmemes").hot(limit=NUM_POSTS):
 
     if post.id in scanned_posts:
+        print("already scanned")
         pass
     else:
         print(f"Starting examining post with title \"{post.title}\"")
