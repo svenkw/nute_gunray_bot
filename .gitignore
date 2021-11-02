@@ -1,3 +1,5 @@
 **/praw.ini
 **/.vscode
 **/scanned_posts
+**/replied
+**/__pycache__
