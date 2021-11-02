@@ -1,6 +1,8 @@
 # Nute_gunray_bot
 Because PrequelMemes does not have enough bots already...
 
+`Current version: v1.0`
+
 ## What does it do?
 [PrequelMemes](reddit.com/r/prequelmemes) has become infested with bots. They impersonate Obi-Wan Kenobi, Gonk droids, the Senate, etc. Sometimes, they even reply to each other. Thing seem to be getting out of hand.
 
@@ -9,11 +11,15 @@ That is why nute_gunray_bot exists: because things are getting out of hand. Each
 > This is getting out of hand, now there's two of them!
 
 ## How does it do this?
-I used Python and the Python Reddit API Wrapper (praw) to make a quick reddit bot. It just gets the top posts, retreives all comments, and looks if there are comments made by bots whose parent comment is also made by a bot. The bots are simply stored in a separate file, so there is no special functionality involved to see which users are bots and which aren't. 
+The bot is written using Python and [praw](https://praw.readthedocs.io/en/stable/). It gets the top 50 posts from hot, and one by one gets all their comments. It scans all comments to see if they were written by a bot (based on a list of known bots included with the bot). It also looks at the author of the parent comment. If both are bots, it replies with its characteristic phrase. 
+
+I also tried to make the bot not **too** annoying: if there is for example an endless stream of gonks, it will only reply to the second comment in the thread, and not to every third, fourth, etc. 
 
 ## When does it do this?
-I made this bot based on a comment I say somewhere on the sub, and I thought the idea was funny. However, it is meant to be funny, not annoying. So I decided to have the bot only check a post **once**. The IDs of the posts that have been checked are saved in a text file. I hope it simply takes a while before the file gets too large. 
+The script in this repository runs once every hour. Since the bot tracks which comments have already been replied to, it can safely scan posts it has already scanned, without replying to double bots that already have their own Nute-comment. 
 
-For now, the bot takes the last 50 posts from new, and looks if the post has been up for a certain time. If it has, the comments are checked for some hot bot-on-bot action, and replies are made. Finally, the ID of the post is added to the list, and the bot moves on. If all posts are checked, it goes to sleep again. 
+## Why publish the source?
+In case you were wondering: it is **ABSOLUTELY NOT** so that more people can run the same bot. Please don't.
+It is so that if something goes wrong, if it starts uncontrollably spamming threads, people can possibly see what's wrong even before I have time to look at it. It's also just nice for the people that are curious what's producing their spam exactly.
 
-I plan to run the script every hour or so. More often would not really be helpful. 
+If you see something wrong with the bot, or just have a question or suggestion, you can reach me on Reddit on my main account: [svenkw](http://www.reddit.com/u/svenkw).

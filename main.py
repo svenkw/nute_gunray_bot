@@ -2,7 +2,7 @@ import praw
 from os import chdir
 from praw.models import MoreComments
 
-#chdir("/home/pi/nute_gunray_bot")
+chdir("/home/pi/nute_gunray_bot")
 
 # Parameters
 NUM_POSTS = 50
@@ -102,7 +102,7 @@ def get_blacklist():
     return post_blacklist
 
 # Create Reddit instance
-reddit = praw.Reddit('nute_gunray_bot', user_agent="script:This is getting out of hand v0.2")
+reddit = praw.Reddit('nute_gunray_bot', user_agent="script:This is getting out of hand v1.0")
 
 # Read the names of the active bots on PrequelMemes from file
 bot_list = get_bot_list()
