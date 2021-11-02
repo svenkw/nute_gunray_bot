@@ -2,7 +2,7 @@ import praw
 from praw.models import MoreComments
 
 # Parameters
-NUM_POSTS = 20
+NUM_POSTS = 50
 BOT_FILE = "bot_data/bot_list"
 SCANNED_FILE = "bot_data/scanned_posts"
 REPLIED_FILE = "bot_data/replied"
@@ -110,7 +110,7 @@ replied = get_replied()
 post_blacklist = get_blacklist()
 
 # Start scanning
-for post in reddit.subreddit("prequelmemes").new(limit=NUM_POSTS):
+for post in reddit.subreddit("prequelmemes").hot(limit=NUM_POSTS):
 
     if post.id in post_blacklist:
         print('blacklisted')
