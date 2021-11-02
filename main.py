@@ -1,5 +1,8 @@
 import praw
+from os import chdir
 from praw.models import MoreComments
+
+chdir("/home/pi/nute_gunray_bot")
 
 # Parameters
 NUM_POSTS = 50
