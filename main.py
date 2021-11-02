@@ -2,7 +2,7 @@ import praw
 from os import chdir
 from praw.models import MoreComments
 
-chdir("/home/pi/nute_gunray_bot")
+#chdir("/home/pi/nute_gunray_bot")
 
 # Parameters
 NUM_POSTS = 50
@@ -133,7 +133,9 @@ for post in reddit.subreddit("prequelmemes").hot(limit=NUM_POSTS):
                     replied.append(comment.id)
                     add_to_replied(comment.id)
                     
-                    comment.reply("This is getting out of hand, now there are two of them!")
+                    new_comment = comment.reply("This is getting out of hand, now there are two of them!")
+                    add_to_replied(new_comment.id)
+                    replied.append(new_comment.id)
                     print("replied")
 
 #print(replied)
