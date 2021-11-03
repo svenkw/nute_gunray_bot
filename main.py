@@ -15,6 +15,11 @@ MIN_POST_AGE = 10
 
 REPLY = True
 
+# Logging setup
+replied_counter = 0
+skipped_counter = 0
+post_counter = 0
+
 def add_to_replied(comment_id):
     """
     Add the comment to the list of comments that have already been replied to
@@ -60,7 +65,7 @@ def check_parent_bot(comment, ca_dict, bot_list):
     """
     Check if the parent of the bot comment is also a bot
     """
-    global replied
+    global replied, skipped_counter
     
     parent_comment_id = comment.parent_id
 
@@ -73,7 +78,7 @@ def check_parent_bot(comment, ca_dict, bot_list):
     # If the parent comment is in replied, return False (aka do not reply to this comment)
     if check_replied(parent_comment_id[3:], replied):
         replied.append(comment.id)
-        #print(comment.body)
+        skipped_counter += 1
         return False
     
     # If all criteria are met, also add parent id to replied list
@@ -102,7 +107,7 @@ def get_blacklist():
     return post_blacklist
 
 # Create Reddit instance
-reddit = praw.Reddit('nute_gunray_bot', user_agent="script:This is getting out of hand v1.0")
+reddit = praw.Reddit('nute_gunray_bot', user_agent="script:This is getting out of hand v1.1")
 
 # Read the names of the active bots on PrequelMemes from file
 bot_list = get_bot_list()
@@ -116,7 +121,7 @@ post_blacklist = get_blacklist()
 for post in reddit.subreddit("prequelmemes").hot(limit=NUM_POSTS):
 
     if post.id in post_blacklist:
-        print('blacklisted')
+        #print('blacklisted')
         continue
 
     print(f"Starting examining post with title \"{post.title}\"")
@@ -133,9 +138,13 @@ for post in reddit.subreddit("prequelmemes").hot(limit=NUM_POSTS):
                     replied.append(comment.id)
                     add_to_replied(comment.id)
                     
-                    new_comment = comment.reply("This is getting out of hand, now there are two of them!")
-                    add_to_replied(new_comment.id)
-                    replied.append(new_comment.id)
-                    print("replied")
+                    if REPLY:
+                        new_comment = comment.reply("This is getting out of hand, now there are two of them!")
+                        add_to_replied(new_comment.id)
+                        replied.append(new_comment.id)
+                    
+                    replied_counter += 1
 
-#print(replied)
+    post_counter += 1
+
+print(f"Checked {post_counter} posts \r\nReplied to {replied_counter} comments \r\nSkipped {skipped_counter} comments to avoid maximum spam")
