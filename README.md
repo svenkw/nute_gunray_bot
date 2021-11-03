@@ -23,3 +23,9 @@ In case you were wondering: it is **ABSOLUTELY NOT** so that more people can run
 It is so that if something goes wrong, if it starts uncontrollably spamming threads, people can possibly see what's wrong even before I have time to look at it. It's also just nice for the people that are curious what's producing their spam exactly.
 
 If you see something wrong with the bot, or just have a question or suggestion, you can reach me on Reddit on my main account: [svenkw](http://www.reddit.com/u/svenkw).
+
+## Options for v1.1
+Features and optimisations I could implement
+- *Rolling reply buffer*: now, all comments that have been replied to are saved in one big file. Well, eventually, this might become a big file. And since the code must see if a certain comment ID is somewhere in the list, the longer the list is, the longer this will take. This might significantly slow down the bot performance over time. A solution could be to save the replied list for several days, and after a certain time just kick out the olders IDs to keep the list at a semi-fixed length.
+- *Better logging*: This does not change anything for my fellow Redditors, but it might make it easier for me to troubleshoot the bot, and see if it is running appropriately. 
+- *Proper config files*: Again, nothing for the end user, but it would be better than the current solution, which is a bunch of static variables at the start of the main python file.
