@@ -1,2 +1,3 @@
-import praw
-print("hello cron")
+insert = "yeet"
+
+print(f"ik zeg graag {insert}")
