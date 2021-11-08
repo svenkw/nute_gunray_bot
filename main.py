@@ -1,19 +1,26 @@
 import praw
 from os import chdir
 from praw.models import MoreComments
+import json
 
-chdir("/home/pi/nute_gunray_bot")
+# Try to change directory to home/pi/nute_gunray_bot on pi
+# If it doesn't work, it's not running on the pi
+# So we don't have to change the directory anyways
+try:
+    chdir("/home/pi/nute_gunray_bot")
+except:
+    print("not running on pi")
+    pass
 
-# Parameters
-NUM_POSTS = 50
-BOT_FILE = "bot_data/bot_list"
-SCANNED_FILE = "bot_data/scanned_posts"
-REPLIED_FILE = "bot_data/replied"
-BLACKLIST_FILE = "bot_data/post_blacklist"
-SCORE_LIMIT = 0
-MIN_POST_AGE = 10
-
-REPLY = True
+# Get config from config.json file
+# Config.json in gitignore to have separate configs for local testing and running on pi
+with open("config.json") as f:
+    config = json.load(f)
+    BOT_FILE = config["bot_list"]
+    REPLIED_FILE = config["replied_file"]
+    BLACKLIST_FILE = config["blacklist_file"]
+    NUM_POSTS = config["num_posts"]
+    REPLY = config["reply"]
 
 # Logging setup
 replied_counter = 0
