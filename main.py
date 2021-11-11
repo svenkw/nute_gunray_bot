@@ -19,6 +19,7 @@ with open("config.json") as f:
     BOT_FILE = config["bot_list"]
     REPLIED_FILE = config["replied_file"]
     BLACKLIST_FILE = config["blacklist_file"]
+    IGNORE_FILE = config["ignore_file"]
     NUM_POSTS = config["num_posts"]
     REPLY = config["reply"]
     VERSION = config["version"]
@@ -48,6 +49,11 @@ def get_blacklist():
         post_blacklist = f.read().splitlines()
     return post_blacklist
 
+def get_ignore_list():
+    with open(IGNORE_FILE, 'r') as f:
+        ignore_list = f.read().splitlines()
+    return ignore_list
+
 
 # =====================================
 # Functions for the main loop
@@ -65,6 +71,12 @@ def get_dict(comment_list):
             ca_dict[comment.id] = comment.author
 
     return ca_dict
+
+def check_ignore_list(comment, ignore_list):
+    if comment.author in ignore_list:
+        return True
+    
+    return False
 
 def check_top_level(comment):
     if comment.parent_id[:3] == "t3_":
@@ -113,6 +125,7 @@ reddit = praw.Reddit('nute_gunray_bot', user_agent=f"script:This is getting out 
 bot_list = get_bot_list()
 replied = get_replied()
 post_blacklist = get_blacklist()
+ignore_list = get_ignore_list()
 
 # Main loop
 for post in reddit.subreddit("prequelmemes").hot(limit=NUM_POSTS):
@@ -132,7 +145,11 @@ for post in reddit.subreddit("prequelmemes").hot(limit=NUM_POSTS):
             pass 
         
         else:
-            if check_top_level(comment):
+            # Do not reply to users in the ignore list
+            if check_ignore_list(comment, ignore_list):
+                pass
+
+            elif check_top_level(comment):
                 #print("Failed TL check")
                 pass
             elif check_replied_self(comment, replied):
