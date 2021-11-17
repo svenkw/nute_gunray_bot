@@ -97,6 +97,10 @@ ignore_list = get_ignore()
 # Get replied IDs
 replied = get_replied()
 
+# Debugging variables
+replied_comments = 0
+total_comments = 0
+
 # Loop over all posts (limited by NUM_POSTS)
 for post in reddit.subreddit("prequelmemes").hot(limit=NUM_POSTS):
     comments = post.comments.list()
@@ -147,6 +151,8 @@ for post in reddit.subreddit("prequelmemes").hot(limit=NUM_POSTS):
             # Look if comments contains trigger
             for trigger in triggers:
                 if re.search(trigger, comment_text):
+                    total_comments += 1
+
                     add_to_replied_file(comment.id)
                     replied.append(comment.id)
 
@@ -164,6 +170,7 @@ for post in reddit.subreddit("prequelmemes").hot(limit=NUM_POSTS):
                     # Each trigger has a probability to give a response
                     if random.random() < probability:
                         print("Replying") # debugging
+                        replied_comments += 1
                         if REPLY:
                             new_comment = comment.reply(response)
                             # Make sure own comment is also added to replied-list to prevent infinite loops
@@ -177,3 +184,5 @@ for post in reddit.subreddit("prequelmemes").hot(limit=NUM_POSTS):
                     # Break the loop after finding a trigger
                     # Order of triggers in the json file determines which triggers get priority
                     break
+
+print(f"\n\nTotal comments: {total_comments}\nReplied comments: {replied_comments}")
