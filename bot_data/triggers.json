@@ -1,0 +1,101 @@
+{
+    "nute gunray" : {
+        "prob" : 0.8,
+        "responses" : [
+            "Where are those droidekas?",
+            "Seal off the bridge!",
+            "At least we are getting results"
+        ]
+    },
+    " nute " : {
+        "prob" : 0.8,
+        "responses" : [
+            "Where are those droidekas?",
+            "Seal off the bridge!",
+            "At least we are getting results"
+        ]
+    },
+    "gunray" : {
+        "prob" : 0.8,
+        "responses" : [
+            "Where are those droidekas?",
+            "Seal off the bridge!",
+            "At least we are getting results"
+        ]
+    },
+    "viceroy" : {
+        "prob" : 0.8,
+        "responses" : [
+
+        ]
+    },
+    "trade federation" : {
+        "prob" : 0.8,
+        "responses" : [
+            "As you know, our blockade is perfectly legal"
+        ]
+    }, 
+    "under attack" : {
+        "prob" : 0.5,
+        "responses" : [
+            "Seal off the bridge!",
+            "I want droidekas up here at once!",
+            "We will not survive this!"
+        ]
+    }, 
+    "victory" : {
+        "prob" : 0.2, 
+        "responses" : [
+            "Ah, victory."
+        ]
+    },
+    "droideka" : {
+        "prob" : 0.8,
+        "responses" : [
+            "Where are those droidekas?",
+            "I want droidekas up here at once!",
+            "They're no match for droidekas"
+        ]
+    },
+    "illegal" : {
+        "prob" : 0.6,
+        "responses" : [
+            "My lord, is that legal?"
+        ]
+    },
+    "legal" : {
+        "prob" : 0.3,
+        "responses" : [
+            "My lord, is that legal?"
+        ]
+    },
+
+    "i assume" : {
+        "prob" : 0.9,
+        "responses" : [
+            "You assume too much"
+        ]
+    },
+
+    "report" : {
+        "prob" : 0.8, 
+        "responses" : [
+            "No need to report that to him until we have something to report"
+        ]
+    },
+
+    "shoot her" : {
+        "prob" : 0.75,
+        "responses" : [
+            "She can't do that! Shoot her or something!"
+        ]
+    },
+
+    "padme" : {
+        "prob" : 0.05,
+        "responses" : [
+            "She can't do that! Shoot her or something!",
+            "After her, this one's a decoy!"
+        ]
+    }
+}
