@@ -45,6 +45,7 @@ with open("config.json") as f:
     VERSION = config["version"]
     TRIGGER_FILE = config["trigger_file"]
     ANTI_TRIGGER_FILE = config["anti_trigger_file"]
+    IGNORE_COMMAND = config["ignore_command"]
 
 def get_triggers():
     with open(TRIGGER_FILE, 'r') as f:
@@ -73,6 +74,10 @@ def get_ignore():
 def add_to_replied_file(id):
     with open(REPLIED_FILE, 'a+') as f:
         f.write(id + "\n")
+
+def add_to_ignore_list(author):
+    with open(IGNORE_FILE, 'a+') as f:
+        f.write(author + "\n")
 
 # Create Reddit instance
 reddit = praw.Reddit('nute_gunray_bot', user_agent=f"script:This is getting out of hand {VERSION}")
@@ -105,19 +110,30 @@ for post in reddit.subreddit("prequelmemes").hot(limit=NUM_POSTS):
         if isinstance(comment, MoreComments):
             continue
         else:
+            # Skip to next comment if comment is made by blacklisted author
             if comment.author in ignore_list:
                 continue
+
+            # Check if the comment is an ignore-command
+            comment_text = comment.body.lower()
+            if comment_text == IGNORE_COMMAND:
+                # Check if the ignore command is a reply to this bot
+                parent = comment.parent_id[3:]
+                parent_comment = reddit.comment(id=parent)
+                parent_author = parent_comment.author
+                if parent_author == "nute_gunray_bot":
+                    # Add the user to the ignore list
+                    add_to_ignore_list(comment.author)
 
             # Skip to next comment if comment is in replied
             if comment.id in replied:
                 continue
+            
             # Skip to next comment if parent comment is already replied to (aka skip thread)
             elif comment.parent_id[3:] in replied:
                 add_to_replied_file(comment.id)
                 replied.append(comment.id)
                 continue
-
-            comment_text = comment.body.lower()
             
             for trigger in anti_triggers:
                 if re.search(trigger, comment_text):
@@ -138,18 +154,23 @@ for post in reddit.subreddit("prequelmemes").hot(limit=NUM_POSTS):
                     responses = trigger_data[trigger]["responses"]
                     num_responses = len(responses)
 
+                    # If the trigger has defined responses, choose one
                     try:
                         response = random.choice(responses)
                     except:
+                        # No responses defined? Go to next trigger
                         continue
 
+                    # Each trigger has a probability to give a response
                     if random.random() < probability:
-                        print("Reply")
+                        print("Replying") # debugging
                         if REPLY:
                             new_comment = comment.reply(response)
+                            # Make sure own comment is also added to replied-list to prevent infinite loops
                             add_to_replied_file(new_comment.id)
                             replied.append(new_comment.id)
                     
+                    # debugging and logging
                     print(f"Original comment\n{comment_text}\nResponse chosen\n{response}\n\n")
 
 
