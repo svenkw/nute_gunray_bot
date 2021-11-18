@@ -46,6 +46,7 @@ with open("config.json") as f:
     TRIGGER_FILE = config["trigger_file"]
     ANTI_TRIGGER_FILE = config["anti_trigger_file"]
     IGNORE_COMMAND = config["ignore_command"]
+    MAX_SESSION_COMMENTS = config["max_session_comments"]
 
 def get_triggers():
     with open(TRIGGER_FILE, 'r') as f:
@@ -107,6 +108,9 @@ for post in reddit.subreddit("prequelmemes").hot(limit=NUM_POSTS):
 
     # Loop over all comments on the post
     for comment in comments:
+        if replied_comments > MAX_SESSION_COMMENTS:
+            break
+
         # SEt anti-trigger flag to False
         a_t = False
 
