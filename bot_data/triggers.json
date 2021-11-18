@@ -36,7 +36,7 @@
         ]
     }, 
     "under attack" : {
-        "prob" : 0.35,
+        "prob" : 0.4,
         "responses" : [
             "Seal off the bridge!",
             "I want droidekas up here at once!",
@@ -44,7 +44,7 @@
         ]
     }, 
     "victory" : {
-        "prob" : 0.1, 
+        "prob" : 0.2, 
         "responses" : [
             "Ah, victory."
         ]
@@ -71,14 +71,14 @@
     },
 
     "i assume" : {
-        "prob" : 0.7,
+        "prob" : 0.85,
         "responses" : [
             "You assume too much"
         ]
     },
 
     "report" : {
-        "prob" : 0.25, 
+        "prob" : 0.5, 
         "responses" : [
             "No need to report that to him until we have something to report"
         ]
